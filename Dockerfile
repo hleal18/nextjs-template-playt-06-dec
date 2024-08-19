@@ -5,12 +5,12 @@ FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim as base
 WORKDIR /rails
 
 # Set production environment
-ENV RAILS_ENV="production" \
-    BUNDLE_DEPLOYMENT="1" \
-    BUNDLE_PATH="/usr/local/bundle" \
-    BUNDLE_WITHOUT="development:test" \
-    RAILS_SERVE_STATIC_FILES="true" \
-    RAILS_LOG_TO_STDOUT="true"
+# ENV RAILS_ENV="production" \
+#     BUNDLE_DEPLOYMENT="1" \
+#     BUNDLE_PATH="/usr/local/bundle" \
+#     BUNDLE_WITHOUT="development:test" \
+#     RAILS_SERVE_STATIC_FILES="true" \
+#     RAILS_LOG_TO_STDOUT="true"
 
 # SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 FROM base as build
