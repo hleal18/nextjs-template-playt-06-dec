@@ -2,7 +2,7 @@ ARG RUBY_VERSION=3.1.5
 FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim as base
 
 # Rails app lives here
-WORKDIR /rails
+# WORKDIR /rails
 
 # Set production environment
 # ENV RAILS_ENV="production" \
@@ -12,7 +12,7 @@ WORKDIR /rails
 #     RAILS_SERVE_STATIC_FILES="true" \
 #     RAILS_LOG_TO_STDOUT="true"
 
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+# SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 FROM base as build
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y build-essential curl git libpq-dev node-gyp pkg-config python-is-python3
