@@ -62,10 +62,6 @@ COPY --from=build /rails /rails
 COPY --from=build /usr/local/node /usr/local/node
 ENV PATH="/usr/local/node/bin:$PATH"
 
-# Run and own only the runtime files as a non-root user for security
-RUN useradd rails --create-home --shell /bin/bash && \
-    chown -R rails:rails db public/assets tmp
-
 USER rails:rails
 
 # Start the server by default, this can be overwritten at runtime
