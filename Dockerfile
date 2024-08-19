@@ -58,7 +58,7 @@ RUN gunzip overmind-v2.4.0-linux-amd64.gz && chmod +x overmind-v2.4.0-linux-amd6
 
 # Copy built artifacts: gems, application
 COPY --from=build /usr/local/bundle /usr/local/bundle
-COPY --from=build /rails /rails
+# COPY --from=build /rails /rails
 COPY --from=build /usr/local/node /usr/local/node
 ENV PATH="/usr/local/node/bin:$PATH"
 
