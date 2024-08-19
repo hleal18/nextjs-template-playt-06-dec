@@ -32,16 +32,6 @@ RUN curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz
     npm install -g yarn@$YARN_VERSION && \
     rm -rf /tmp/node-build-master
 
-# Install application gems
-COPY shared/pond/pond.gemspec shared/pond/
-COPY shared/az-misc/az-misc.gemspec shared/az-misc/
-COPY supplier_integrations/supplier_integrations.gemspec supplier_integrations/
-COPY front/front.gemspec front/
-COPY Gemfile Gemfile.lock ./
-COPY Gemfile Gemfile.lock ./
-RUN bundle install && \
-    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
-    bundle exec bootsnap precompile --gemfile
 
 # Install node modules
 COPY package.json yarn.lock ./
