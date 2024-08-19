@@ -14,6 +14,7 @@ ENV RAILS_ENV="production" \
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 FROM base as build
+WORKDIR /rails
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y build-essential curl git libpq-dev node-gyp pkg-config python-is-python3
 
@@ -23,11 +24,8 @@ COPY package.json package.json
 RUN yarn install
 COPY . .
 RUN yarn build && yarn --production
-#Hello
 FROM node:16-alpine
 WORKDIR /app
-# RUN apt-get update -qq && \
-#     apt-get install --no-install-recommends -y wkhtmltopdf ttf-mscorefonts-installer curl tmux postgresql-client jq 
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
