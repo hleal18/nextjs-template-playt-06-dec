@@ -59,7 +59,7 @@ COPY . .
 # Precompile bootsnap code for faster boot times
 # RUN bundle exec bootsnap precompile app/ lib/
 
-FROM base
+# FROM base
 
 # Install packages needed for score badge generation & for deployment
 RUN sed -i"" -E 's/^Components: .+$/& contrib/g' /etc/apt/sources.list.d/debian.sources && \
