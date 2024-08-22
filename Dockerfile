@@ -3,8 +3,7 @@
 ARG RUBY_VERSION=3.1.5
 FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim as base
 
-# Rails app lives here
-WORKDIR /rails
+
 
 # Set production environment
 ENV RAILS_ENV="production" \
@@ -17,6 +16,8 @@ ENV RAILS_ENV="production" \
 # Throw-away build stage to reduce size of final image
 FROM base as build
 
+# Rails app lives here
+WORKDIR /rails
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Install packages needed to build gems
