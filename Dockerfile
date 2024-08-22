@@ -3,6 +3,9 @@
 ARG RUBY_VERSION=3.1.5
 FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim as base
 
+# Rails app lives here
+WORKDIR /rails
+
 # Set production environment
 ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
@@ -40,8 +43,7 @@ RUN curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz
 #     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
 #     bundle exec bootsnap precompile --gemfile
 
-# Rails app lives here
-WORKDIR /rails
+
 
 # Install node modules
 COPY package.json yarn.lock ./
