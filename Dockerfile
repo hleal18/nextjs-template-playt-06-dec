@@ -1,5 +1,5 @@
 # syntax = docker/dockerfile:1
-FROM base
+
 ARG RUBY_VERSION=3.1.5
 FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim as base
 
@@ -14,7 +14,7 @@ ENV RAILS_ENV="production" \
     RAILS_LOG_TO_STDOUT="true"
 
 # Throw-away build stage to reduce size of final image
-# FROM base as build
+FROM base as build
 
 # Rails app lives here
 WORKDIR /rails
@@ -56,10 +56,10 @@ RUN mkdir -p tmp/pids
 # Copy application code
 COPY . .
 
-# Precompile bootsnap code for faster boot times    
+# Precompile bootsnap code for faster boot times
 # RUN bundle exec bootsnap precompile app/ lib/
 
-# FROM base
+FROM base
 
 # Install packages needed for score badge generation & for deployment
 RUN sed -i"" -E 's/^Components: .+$/& contrib/g' /etc/apt/sources.list.d/debian.sources && \
