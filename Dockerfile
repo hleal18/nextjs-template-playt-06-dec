@@ -1,5 +1,5 @@
 # syntax = docker/dockerfile:1
-
+FROM base
 ARG RUBY_VERSION=3.1.5
 FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim as base
 
