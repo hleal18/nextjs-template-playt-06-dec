@@ -14,7 +14,7 @@ ENV RAILS_ENV="production" \
     RAILS_LOG_TO_STDOUT="true"
 
 # Throw-away build stage to reduce size of final image
-FROM base as build
+FROM base
 
 # Rails app lives here
 WORKDIR /rails
