@@ -3,9 +3,6 @@
 ARG RUBY_VERSION=3.1.5
 FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim as base
 
-# Rails app lives here
-# WORKDIR /rails
-
 # Set production environment
 ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
@@ -32,6 +29,19 @@ RUN curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz
     npm install -g yarn@$YARN_VERSION && \
     rm -rf /tmp/node-build-master
 
+# Install application gems
+COPY shared/pond/pond.gemspec shared/pond/
+COPY shared/az-misc/az-misc.gemspec shared/az-misc/
+COPY supplier_integrations/supplier_integrations.gemspec supplier_integrations/
+COPY front/front.gemspec front/
+COPY Gemfile Gemfile.lock ./
+COPY Gemfile Gemfile.lock ./
+RUN bundle install && \
+    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
+    bundle exec bootsnap precompile --gemfile
+
+# Rails app lives here
+WORKDIR /rails
 
 # Install node modules
 COPY package.json yarn.lock ./
@@ -42,6 +52,9 @@ RUN mkdir -p tmp/pids
 
 # Copy application code
 COPY . .
+
+# Precompile bootsnap code for faster boot times
+RUN bundle exec bootsnap precompile app/ lib/
 
 FROM base
 
@@ -58,7 +71,7 @@ RUN gunzip overmind-v2.4.0-linux-amd64.gz && chmod +x overmind-v2.4.0-linux-amd6
 
 # Copy built artifacts: gems, application
 COPY --from=build /usr/local/bundle /usr/local/bundle
-# COPY --from=build /rails /rails
+COPY --from=build /rails /rails
 COPY --from=build /usr/local/node /usr/local/node
 ENV PATH="/usr/local/node/bin:$PATH"
 
